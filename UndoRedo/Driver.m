@@ -4,6 +4,7 @@
 #import "Driver.h"
 
 #import "HistoryManager.h"
+#import "ImageUndoRedo.h"
 #import "Protocols.h"
 
 NS_ASSUME_NONNULL_BEGIN

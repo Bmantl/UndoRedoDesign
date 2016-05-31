@@ -15,11 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<HistoryOperation>)operationForRevision:(id<DocumentRevision>)revision
                                 revisionData:(NSData *)data;
 
-- (NSData *)dataForOperation:(id<HistoryOperation>)item;
+- (NSData *)dataForOperation:(id<HistoryOperation>)operation;
+
+//- (NSData *)dataForOperationSnapshot:(id<HistoryOperation>)operation;
 
 @property (readonly, nonatomic) NSString *operationType;
 
 @end
-
 
 NS_ASSUME_NONNULL_END

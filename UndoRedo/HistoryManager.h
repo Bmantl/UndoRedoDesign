@@ -6,34 +6,51 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^HistoryActionComplete)(id<Cancelable> token, id<DocumentRevision> revisionApplied);
+@protocol Snapshot
+
+- (NSData *)snapshot;
+
+- (void)restoreFromSnapshotData:(NSData *)data;
+
+@end
+
+@protocol DocumentEditingSequence <NSObject>
+
+@property (strong, readonly, nonatomic) id<DocumentProps> props;
+
+@property (strong, readonly, nonatomic) id<DocumentRevision> currentRevision;
+
+@property (strong, readonly, nonatomic) id<Snapshot> applicationState;
+
+@end
+
+typedef void(^HistoryActionComplete)(id<Cancelable> token, id<DocumentEditingSequence> sequence);
 
 @protocol HistoryManagerAsync
 
 /// since undo/redo operations are async it is HistoryOperation responsibility to synchronize the
 /// actuall editing task or run it on correct thread.
 /// (Which means that its interface should async too).
-- (id<Cancelable>)undoWithCompletion:(HistoryActionComplete)completion;
+- (id<Cancelable>)undoOnSequence:(id<DocumentEditingSequence>)sequence
+                      completion:(HistoryActionComplete)completion;
 
-- (id<Cancelable>)redoWithCompletion:(HistoryActionComplete)completion;
-
-- (id<Cancelable>)addOperation:(id<HistoryOperation>)operation
-              withPrerequisite:(nullable id<DocumentRevision>)revision
+- (id<Cancelable>)redoOnSequence:(id<DocumentEditingSequence>)sequence
                     completion:(HistoryActionComplete)completion;
 
+- (id<Cancelable>)addOperation:(id<HistoryOperation>)operation
+                    toSequence:(id<DocumentEditingSequence>)sequence
+              withPrerequisite:(nullable id<DocumentRevision>)revision
+                  forceSnaphot:(BOOL)forceSnaphot
+                    completion:(HistoryActionComplete)completion;
+
+- (id<Cancelable>)takeSnapshot:(id<DocumentEditingSequence>)sequence
+                  forceFlatten:(BOOL)flatten completion:(HistoryActionComplete)completion;
+
 - (id<Cancelable>)applyRevision:(id<DocumentRevision>)revision
-                      withCompletion:(HistoryActionComplete)completion;
+                     onSequence:(id<DocumentEditingSequence>)sequence
+                 withCompletion:(HistoryActionComplete)completion;
 
-- (void)commit;
-
-@property (readonly, nonatomic) BOOL canUndo;
-@property (readonly, nonatomic) BOOL canRedo;
-
-/// gets current revision and applies its operation, setter should be async and implemented as
-/// applyRevision method.
-@property (readonly, nonatomic) id<DocumentRevision> currentRevision;
-
-@property (readonly, nonatomic) id<DocumentProps> document;
+- (id<Cancelable>)commitSequence:(id<DocumentEditingSequence>)sequence completion:(id)completion;
 
 @property (readonly, nonatomic) id<HistoryOperationsRegistry> operationsRegistry;
 

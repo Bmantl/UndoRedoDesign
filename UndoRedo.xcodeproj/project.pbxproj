@@ -34,6 +34,7 @@
 		A1456E941CF490E20090FC9A /* HistoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryManager.h; sourceTree = "<group>"; };
 		A1456E951CF491310090FC9A /* HistoryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryItem.h; sourceTree = "<group>"; };
 		A1456E971CF5DAFC0090FC9A /* HistoryItemAdaptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryItemAdaptor.h; sourceTree = "<group>"; };
+		A182B3201CFC674900CA80C3 /* ImageUndoRedo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageUndoRedo.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +83,7 @@
 				A1456E941CF490E20090FC9A /* HistoryManager.h */,
 				A1456E951CF491310090FC9A /* HistoryItem.h */,
 				A1456E971CF5DAFC0090FC9A /* HistoryItemAdaptor.h */,
+				A182B3201CFC674900CA80C3 /* ImageUndoRedo.h */,
 			);
 			path = UndoRedo;
 			sourceTree = "<group>";

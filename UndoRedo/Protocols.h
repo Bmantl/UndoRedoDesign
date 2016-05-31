@@ -44,6 +44,8 @@ typedef void(^CancelableCompletion)(id<Cancelable> token);
 
 - (void)removeOperationAdaptor:(id<HistoryOperationAdaptor>)adaptor;
 
+- (void)adaptorForOperation:(NSString *)operationType;
+
 @end
 
 /// load/store item for revision from revisions db. handles converting stored data to actuall
@@ -58,6 +60,9 @@ typedef void(^CancelableCompletion)(id<Cancelable> token);
 
 - (id<Cancelable>)itemsForRevisions:(RevisionsArray *)revisions
                          completion:(HistoryItemsCompletion)completion;
+
+- (id<Cancelable>)commitUpTo:(id<DocumentRevision>)revision
+                  completion:(RevisionsArrayCompletion)completion;
 
 @end
 
